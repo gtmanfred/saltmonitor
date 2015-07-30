@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask.ext.restful import Api
 
 def create_app():
-    app = Blueprint('backend', __name__)
+    app = Blueprint('backend', __name__, url_prefix='/api')
     app.debug=True
     api = Api(app)
 

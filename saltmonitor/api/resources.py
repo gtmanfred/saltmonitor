@@ -9,7 +9,7 @@ collection = client.salt
 class Jobs(Resource):
     def get(self):
         jobs = collection.jobs
-        ret = list(jobs.find({'fun': 'state.highstate'}).sort('jid'))
+        ret = list(jobs.find().sort('jid', -1))
         for x in ret:
             x['_id'] = str(x['_id'])
         return jsonify({'jobs': ret})
@@ -35,7 +35,7 @@ class SaltReturns(Resource):
 class SaltReturn(Resource):
     def get(self, jid):
         returns = collection.saltReturns
-        ret = list(returns.find({'jid': jid}).sort('return.__run_num__'))
+        ret = list(returns.find({'jid': jid}).sort('_id'))
         for x in ret:
             x['_id'] = str(x['_id'])
         return jsonify({'results': ret})
