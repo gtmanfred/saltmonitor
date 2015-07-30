@@ -2,7 +2,8 @@ from flask import jsonify
 from flask.ext.restful import Resource
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://localhost:27017/')
+# connect=False for https://jira.mongodb.org/browse/PYTHON-961
+client = MongoClient('mongodb://localhost:27017/', connect=False)
 collection = client.salt
 
 
