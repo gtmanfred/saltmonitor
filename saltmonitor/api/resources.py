@@ -1,8 +1,8 @@
-from flask import jsonify
 from flask.ext.restful import Resource
 from pymongo import MongoClient
 
-# connect=False for https://jira.mongodb.org/browse/PYTHON-961
+from saltmonitor.utils import jsonify
+
 
 class BaseResource(Resource):
     client = None
@@ -28,7 +28,6 @@ class Job(BaseResource):
     def get(self, jid):
         jobs = self.collection.jobs
         ret = jobs.find_one({'jid': jid})
-        ret['_id'] = str(ret['_id'])
         return jsonify(ret)
 
 
@@ -36,8 +35,6 @@ class SaltReturns(BaseResource):
     def get(self):
         returns = self.collection.saltReturns
         ret = list(returns.find())
-        for x in ret:
-            x['_id'] = str(x['_id'])
         return jsonify({'results': ret})
 
 
@@ -45,6 +42,4 @@ class SaltReturn(BaseResource):
     def get(self, jid):
         returns = self.collection.saltReturns
         ret = list(returns.find({'jid': jid}).sort('_id'))
-        for x in ret:
-            x['_id'] = str(x['_id'])
         return jsonify({'results': ret})
